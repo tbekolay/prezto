@@ -11,3 +11,73 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+#
+# For setting a default browser
+#
+
+if [[ `uname -v` == *Debian* ]]; then
+   export BROWSER="google-chrome"
+fi
+
+#
+# For virtualenvwrapper / Python
+#
+
+# export PYTHONWARNINGS=default
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export WORKON_HOME="$HOME/.virtualenvs"
+export PROJECT_HOME="$HOME/Code"
+if [[ `uname -v` == *Debian* ]]; then
+  source "/usr/share/virtualenvwrapper/virtualenvwrapper.sh"
+fi
+
+#
+# For ripgrep
+#
+
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+#
+# For time keeping with `ti`
+#
+
+export SHEET_FILE="$HOME/Dropbox/zzOrg/ti-sheet.json"
+
+# Not a fan of the auto cd (I never use it!)
+unsetopt AUTO_CD
+
+exe() { echo "\$ $@" ; "$@" ; }
+
+test_nengo() {
+    exe workon nengo
+    exe pytest "$@" --plots
+    exe workon nengo3
+    exe pytest "$@"
+    exe workon nengo
+    exe .ci/static.sh run
+}
+
+activate_loihi() {
+    cd "$HOME/miniconda/bin"
+    source ./activate loihi
+    cd - > /dev/null
+}
+
+RSYNCOPTS=("-rtuv" "--exclude=*.pyc")
+LOIHI="$HOME/Code/nengo-loihi/"
+NXSDK="$HOME/Code/NxSDK/"
+push_intel() {
+    rsync "${RSYNCOPTS[@]}" --delete "$LOIHI" "intelhost:trevor/nengo-loihi"
+    rsync -rtuv --delete "$NXSDK" "intelhost:trevor/NxSDK"
+}
+pull_intel() {
+    rsync "${RSYNCOPTS[@]}" "intelhost:trevor/nengo-loihi/" "$LOIHI"
+}
+push_abr() {
+    rsync "${RSYNCOPTS[@]}" --delete "$LOIHI" "abrhost:nengo-loihi"
+    rsync -rtuv --delete "$NXSDK" "abrhost:NxSDK"
+}
+pull_abr() {
+    rsync "${RSYNCOPTS[@]}" "abrhost:nengo-loihi/" "$LOIHI"
+}

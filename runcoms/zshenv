@@ -9,3 +9,38 @@
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+#
+# Paths
+#
+
+# Ensure path arrays do not contain duplicates.
+typeset -gU cdpath fpath mailpath path
+
+# Set the the list of directories that cd searches.
+# cdpath=(
+#   $cdpath
+# )
+
+# Fix for path_helper BS
+# unsetopt GLOBAL_RCS
+
+# Set the list of directories that Zsh searches for programs.
+path=(
+  $HOME/bin
+  $HOME/.npm/bin
+  $HOME/.cargo/bin
+  $HOME/.cask/bin
+  $(gem env gempath | cut -d : -f 1)/bin
+  /usr/local/{bin,sbin}
+  /usr/local/opt/ruby/bin
+  /usr/local/share/npm/bin
+  /usr/texbin
+  $path
+)
+
+systemdpath=$(systemctl --user show-environment | grep '^PATH')
+if [[ $systemdpath != *"/home/tbekolay/"* ]]; then
+   systemctl --user import-environment PATH
+   systemctl restart --user emacs
+fi

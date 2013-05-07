@@ -35,7 +35,15 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
-  'prompt'
+  'prompt' \
+  'archive' \
+  'dpkg' \
+  'git' \
+  'history-substring-search' \
+  'python' \
+  'node' \
+  'syntax-highlighting' \
+  'gpg'
 
 #
 # Autosuggestions
@@ -113,7 +121,7 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'tbekolay'
 
 # Set the working directory prompt display length.
 # By default, it is set to 'short'. Set it to 'long' (without '~' expansion)
@@ -123,6 +131,12 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 # Set the prompt to display the return code along with an indicator for non-zero
 # return codes. This is not supported by all prompts.
 # zstyle ':prezto:module:prompt' show-return-val 'yes'
+
+#
+# Python
+#
+
+zstyle ':prezto:module:python' conda-init 'on'
 
 #
 # Ruby

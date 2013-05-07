@@ -17,9 +17,10 @@ fi
 # Editors
 #
 
-export EDITOR='nano'
-export VISUAL='nano'
-export PAGER='less'
+export ALTERNATE_EDITOR=""
+export EDITOR="emacs-nw"
+export VISUAL="emacs-nw"
+export PAGER="less"
 
 #
 # Language
@@ -28,24 +29,6 @@ export PAGER='less'
 if [[ -z "$LANG" ]]; then
   export LANG='en_US.UTF-8'
 fi
-
-#
-# Paths
-#
-
-# Ensure path arrays do not contain duplicates.
-typeset -gU cdpath fpath mailpath path
-
-# Set the list of directories that cd searches.
-# cdpath=(
-#   $cdpath
-# )
-
-# Set the list of directories that Zsh searches for programs.
-path=(
-  /usr/local/{bin,sbin}
-  $path
-)
 
 #
 # Less
